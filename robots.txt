@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block any admin or form submission paths
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://gsthelps.com/sitemap.xml
