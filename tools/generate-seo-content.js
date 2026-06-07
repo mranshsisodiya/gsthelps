@@ -415,7 +415,7 @@ function nav(active = '') {
   <div class="container nav-inner">
     <a href="/" class="nav-logo">
       <span class="nav-logo-icon"><img src="/favicon-32x32.png" width="24" height="24" loading="eager" decoding="async" alt="GST Helps"></span>
-      <span class="nav-logo-text">GST Solutions<span>Tax &amp; Compliance Experts</span></span>
+      <span class="nav-logo-text">Sujeet Singh &amp; Associates<span>GST Consultant</span></span>
     </a>
     <div class="nav-links">
       <a href="/">Home</a>
@@ -634,9 +634,11 @@ h3{font-size:1.08rem}
 .nav-inner .btn{padding:8px 18px;font-size:.82rem;flex-shrink:0}
 .nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .nav-logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent-lt));border-radius:10px;display:flex;align-items:center;justify-content:center}
-.nav-logo-text{font-family:'Playfair Display',serif;color:#fff;font-weight:700;line-height:1.1}
+.nav-logo-text{font-family:'Playfair Display',serif;color:#fff;font-weight:700;line-height:1.1;white-space:nowrap}
 .nav-logo-text span{display:block;font-family:'DM Sans',sans-serif;color:var(--accent-lt);font-size:.68rem;font-weight:400}
-.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--accent) transparent;-webkit-overflow-scrolling:touch}
+.nav-links::-webkit-scrollbar{height:4px}
+.nav-links::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
 .nav-links a{color:rgba(255,255,255,.82);font-size:.77rem;padding:6px 9px;border-radius:6px;white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.08);color:var(--accent-lt)}
 .hero{background:linear-gradient(145deg,var(--navy),#0e2d6a 56%,var(--royal));padding:128px 0 68px;position:relative;overflow:hidden}
