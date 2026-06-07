@@ -455,7 +455,7 @@ function footer() {
 </footer>`;
 }
 
-function head({title, desc, canonical, schema}) {
+function head({title, desc, canonical, schema, relPath = ''}) {
   return `<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -474,7 +474,7 @@ function head({title, desc, canonical, schema}) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/seo-pages.css">
+<link rel="stylesheet" href="${relPath}assets/seo-pages.css">
 ${schema.map(s => `<script type="application/ld+json">${json(s)}</script>`).join('\n')}
 </head>`;
 }
@@ -527,7 +527,7 @@ function servicePage(file, page) {
   const schema = [professionalSchema(page, url), faqSchema(page.faqs), breadcrumbSchema([['Home','https://gsthelps.com/'],[page.h1,url]])];
   const body = `<!DOCTYPE html>
 <html lang="en">
-${head({title: page.title, desc: page.desc, canonical: url, schema})}
+${head({title: page.title, desc: page.desc, canonical: url, schema, relPath: './'})}
 <body>
 ${nav('/' + file)}
 <main>
@@ -575,7 +575,7 @@ function intentPage(page) {
     ['Return Filing Workflow', `A practical workflow includes monthly sales review, purchase review, supplier follow-up, tax payment planning, and final return approval. Even a small business should not wait until the due date to assemble data. The cost of late filing is often less important than the compliance history it creates.`],
     ['When to Consult a GST Expert', `Professional help is valuable before registration, before the first large B2B invoice, before export billing, when a notice is received, when credits do not match, or when the business is unsure about tax treatment. A short review can prevent months of correction work.`]
   ];
-  const body = `<!DOCTYPE html><html lang="en">${head({title: page.title, desc: page.desc, canonical: url, schema})}<body>${nav('/' + page.file)}<main>
+  const body = `<!DOCTYPE html><html lang="en">${head({title: page.title, desc: page.desc, canonical: url, schema, relPath: './'})}<body>${nav('/' + page.file)}<main>
 <section class="hero"><div class="container"><div class="breadcrumb"><a href="/">Home</a><span>/</span><span>${esc(page.h1)}</span></div><span class="badge">${esc(page.badge)}</span><h1>${esc(page.h1)}</h1><p>Educational GST guidance for ${esc(page.audience)}, with clear next steps when professional support is needed.</p><div class="hero-actions"><a href="/contact.html" class="btn btn-primary">${esc(page.cta)}</a></div></div></section>
 <section class="section"><div class="container content-grid"><article class="content">${sections.map(([h,p]) => `<h2>${esc(h)}</h2><p>${esc(p)}</p><p>${esc(expansionParagraph(page.h1, page.audience))}</p>`).join('')}<h2>Helpful Next Reading</h2>${linkList(relatedBlogs)}</article><aside class="sidebar"><div class="panel"><h2>Recommended Services</h2>${linkList(relatedServices)}</div><div class="panel"><h2>Related Guides</h2>${linkList(intentLinks.filter(x => x[1] !== '/' + page.file))}</div></aside></div></section>
 <section class="section cta"><div class="container"><h2>Need GST Support for Your Business Type?</h2><p>Get a practical GST review before registration, filing, export billing, or notice response.</p><a href="/contact.html" class="btn btn-accent">Book Free Consultation</a></div></section>${faqHtml(page.faqs)}</main>${footer()}</body></html>`;
@@ -595,17 +595,96 @@ function blogPage(page) {
     const p4 = `When this area is reviewed monthly, the business gets cleaner books and fewer surprises. The finance owner can see which invoices are pending, which suppliers need follow-up, whether tax payment is properly funded, and whether a professional review is needed before the next filing. That practical visibility is often the difference between routine compliance and stressful correction work.`;
     return `<h2>${esc(h)}</h2><p>${esc(p1)}</p><p>${esc(p2)}</p><p>${esc(p3)}</p><p>${esc(p4)}</p>`;
   }).join('');
-  const body = `<!DOCTYPE html><html lang="en">${head({title: page.title, desc: page.desc, canonical: url, schema})}<body>${nav()}<main>
+  const body = `<!DOCTYPE html><html lang="en">${head({title: page.title, desc: page.desc, canonical: url, schema, relPath: '../'})}<body>${nav()}<main>
 <section class="hero"><div class="container"><div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog/gst-registration-process-india.html">Blog</a><span>/</span><span>${esc(page.h1)}</span></div><span class="badge">GST Guide</span><h1>${esc(page.h1)}</h1><p>${esc(intro)}</p><div class="hero-actions"><a href="${page.primaryService}" class="btn btn-primary">Get Related Service Help</a></div></div></section>
 <section class="section"><div class="container content-grid"><article class="content"><p>${esc(intro)}</p>${bodySections}<h2>How GST Helps Can Support You</h2><p>GST Helps provides consultant-led support for registration, return filing, refunds, audit preparation, notice replies, and ongoing compliance. If this guide matches a problem in your business, the next step is to review your facts, documents, and portal data before taking action.</p><p>For direct help, start with the related service page and then book a free consultation. A short review can identify whether the matter is simple, time-sensitive, document-heavy, or better handled through a structured engagement.</p><h2>Related Articles</h2>${linkList(relatedBlogs)}</article><aside class="sidebar"><div class="panel"><h2>Related Services</h2>${linkList(serviceLinks)}</div><div class="panel"><h2>Business Guides</h2>${linkList(intentLinks)}</div></aside></div></section>
 <section class="section cta"><div class="container"><h2>Need Help Applying This Guide?</h2><p>Get professional GST support before filing, responding, or claiming credit/refund.</p><a href="/contact.html" class="btn btn-accent">Talk to a GST Consultant</a></div></section>${faqHtml(page.faqs)}</main>${footer()}</body></html>`;
   fs.writeFileSync(filePath, body);
 }
 
+function blogIndex() {
+  const filePath = path.join(root, 'blog', 'index.html');
+  const url = 'https://gsthelps.com/blog/';
+  const schema = [breadcrumbSchema([['Home','https://gsthelps.com/'],['Blog',url]])];
+  const body = `<!DOCTYPE html><html lang="en">${head({title: 'GST Blog India | GST Helps', desc: 'Read practical GST guides on registration, returns, compliance, refunds, penalties, small business GST, freelancers, and software developers in India.', canonical: url, schema, relPath: '../'})}<body>${nav()}<main>
+<section class="hero"><div class="container"><div class="breadcrumb"><a href="/">Home</a><span>/</span><span>Blog</span></div><span class="badge">GST Guides</span><h1>GST Blog India</h1><p>Practical GST guides for Indian businesses, startups, freelancers, proprietors, companies, exporters, and finance teams.</p></div></section>
+<section class="section"><div class="container content"><h2>Popular GST Guides</h2>${linkList(blogLinks)}<h2>Need GST Help?</h2><p>Use these articles for education, then speak with GST Helps when you need registration, filing, refund, audit, notice, or monthly compliance support.</p><p><a href="/contact.html" class="btn btn-primary">Talk to a GST Consultant</a></p></div></section></main>${footer()}</body></html>`;
+  fs.writeFileSync(filePath, body);
+}
+
 function css() {
+  const cssContent = `:root{--navy:#0a1f44;--royal:#1a3a8f;--sky:#2563eb;--accent:#c8a84b;--accent-lt:#f0d97a;--white:#fff;--off-white:#f4f6fb;--lt-gray:#e8ecf4;--mid-gray:#8896b3;--dark-gray:#3b4a6b;--text:#1e2d4f;--shadow-sm:0 2px 8px rgba(10,31,68,.10);--shadow-md:0 6px 28px rgba(10,31,68,.14);--radius:12px;--radius-lg:20px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.68}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:'Playfair Display',serif;line-height:1.2;color:var(--navy)}
+h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800}
+h2{font-size:clamp(1.35rem,3vw,2rem);margin:34px 0 12px}
+h3{font-size:1.08rem}
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+.badge{display:inline-block;background:var(--accent);color:var(--navy);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:50px;font-weight:700;transition:.25s;text-decoration:none}
+.btn-primary{background:linear-gradient(135deg,var(--sky),var(--royal));color:#fff;box-shadow:0 4px 20px rgba(37,99,235,.32)}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#e8b84d);color:var(--navy)}
+.btn-outline{border:2px solid rgba(255,255,255,.55);color:#fff}
+#navbar{position:fixed;top:0;left:0;width:100%;background:var(--navy);z-index:20;box-shadow:var(--shadow-md)}
+.nav-inner{height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-inner .btn{padding:8px 18px;font-size:.82rem;flex-shrink:0}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent-lt));border-radius:10px;display:flex;align-items:center;justify-content:center}
+.nav-logo-text{font-family:'Playfair Display',serif;color:#fff;font-weight:700;line-height:1.1}
+.nav-logo-text span{display:block;font-family:'DM Sans',sans-serif;color:var(--accent-lt);font-size:.68rem;font-weight:400}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links a{color:rgba(255,255,255,.82);font-size:.77rem;padding:6px 9px;border-radius:6px;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.08);color:var(--accent-lt)}
+.hero{background:linear-gradient(145deg,var(--navy),#0e2d6a 56%,var(--royal));padding:128px 0 68px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,rgba(200,168,75,.12),transparent 45%),radial-gradient(circle at 80% 20%,rgba(37,99,235,.18),transparent 50%)}
+.hero .container{position:relative}
+.breadcrumb{display:flex;flex-wrap:wrap;gap:8px;color:rgba(255,255,255,.62);font-size:.84rem;margin-bottom:14px}
+.breadcrumb a{color:rgba(255,255,255,.72)}
+.hero h1{color:#fff;max-width:850px;margin-bottom:16px}
+.hero p{color:rgba(255,255,255,.76);font-size:1.08rem;max-width:790px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.section{padding:72px 0}
+.section-alt{background:var(--off-white)}
+.content-grid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:42px;align-items:start}
+.content{font-size:1.02rem}
+.content p{color:var(--dark-gray);margin-bottom:18px}
+.content ul,.link-list{margin:14px 0 24px;padding-left:20px}
+.link-list li{margin:8px 0}
+.link-list a{color:var(--royal);font-weight:700}
+.sidebar{position:sticky;top:92px;display:grid;gap:18px}
+.panel{border:1px solid var(--lt-gray);border-radius:var(--radius);padding:22px;background:#fff;box-shadow:var(--shadow-sm)}
+.panel h2{font-size:1.2rem;margin:0 0 12px}
+.cta{text-align:center;background:linear-gradient(135deg,var(--navy),#0e2d6a)}
+.cta h2{color:#fff;margin-top:0}
+.cta p{color:rgba(255,255,255,.72);max-width:680px;margin:0 auto 26px}
+.faq h2{margin-top:0}
+.faq details{background:#fff;border:1px solid var(--lt-gray);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:var(--shadow-sm)}
+.faq summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.faq details p{margin-top:10px;color:var(--dark-gray)}
+footer{background:var(--navy);padding:44px 0;color:rgba(255,255,255,.72)}
+.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px}
+.footer-brand{font-family:'Playfair Display',serif;color:#fff;font-size:1.35rem;font-weight:700;margin-bottom:10px}
+footer h3{color:var(--accent-lt);font-size:1rem;margin-bottom:10px}
+footer a{display:block;color:rgba(255,255,255,.65);font-size:.9rem;margin:7px 0}
+@media(max-width:900px){
+  .nav-links{display:none}
+  .nav-inner>.btn{display:none}
+  .content-grid{grid-template-columns:1fr}
+  .sidebar{position:static}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .footer-grid{grid-template-columns:1fr}
+  .section{padding:54px 0}
+  .hero{padding-top:112px}
+}`;
   const dir = path.join(root, 'assets');
-  fs.mkdirSync(dir, {recursive:true});
-  fs.writeFileSync(path.join(dir, 'seo-pages.css'), `:root{--navy:#0a1f44;--royal:#1a3a8f;--sky:#2563eb;--accent:#c8a84b;--accent-lt:#f0d97a;--white:#fff;--off-white:#f4f6fb;--lt-gray:#e8ecf4;--mid-gray:#8896b3;--dark-gray:#3b4a6b;--text:#1e2d4f;--shadow-sm:0 2px 8px rgba(10,31,68,.10);--shadow-md:0 6px 28px rgba(10,31,68,.14);--radius:12px;--radius-lg:20px}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.68}a{color:inherit;text-decoration:none}img{max-width:100%;display:block}h1,h2,h3{font-family:'Playfair Display',serif;line-height:1.2;color:var(--navy)}h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800}h2{font-size:clamp(1.35rem,3vw,2rem);margin:34px 0 12px}h3{font-size:1.08rem}.container{max-width:1120px;margin:0 auto;padding:0 24px}.badge{display:inline-block;background:var(--accent);color:var(--navy);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:50px;margin-bottom:14px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:50px;font-weight:700;transition:.25s;text-decoration:none}.btn-primary{background:linear-gradient(135deg,var(--sky),var(--royal));color:#fff;box-shadow:0 4px 20px rgba(37,99,235,.32)}.btn-accent{background:linear-gradient(135deg,var(--accent),#e8b84d);color:var(--navy)}.btn-outline{border:2px solid rgba(255,255,255,.55);color:#fff}#navbar{position:fixed;top:0;left:0;width:100%;background:var(--navy);z-index:20;box-shadow:var(--shadow-md)}.nav-inner{height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}.nav-logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent-lt));border-radius:10px;display:flex;align-items:center;justify-content:center}.nav-logo-text{font-family:'Playfair Display',serif;color:#fff;font-weight:700;line-height:1.1}.nav-logo-text span{display:block;font-family:'DM Sans',sans-serif;color:var(--accent-lt);font-size:.68rem;font-weight:400}.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}.nav-links a{color:rgba(255,255,255,.82);font-size:.77rem;padding:6px 9px;border-radius:6px;white-space:nowrap}.nav-links a:hover,.nav-links a.active{background:rgba(255,255,255,.08);color:var(--accent-lt)}.hero{background:linear-gradient(145deg,var(--navy),#0e2d6a 56%,var(--royal));padding:128px 0 68px;position:relative;overflow:hidden}.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,rgba(200,168,75,.12),transparent 45%),radial-gradient(circle at 80% 20%,rgba(37,99,235,.18),transparent 50%)}.hero .container{position:relative}.breadcrumb{display:flex;flex-wrap:wrap;gap:8px;color:rgba(255,255,255,.62);font-size:.84rem;margin-bottom:14px}.breadcrumb a{color:rgba(255,255,255,.72)}.hero h1{color:#fff;max-width:850px;margin-bottom:16px}.hero p{color:rgba(255,255,255,.76);font-size:1.08rem;max-width:790px}.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}.section{padding:72px 0}.section-alt{background:var(--off-white)}.content-grid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:42px;align-items:start}.content{font-size:1.02rem}.content p{color:var(--dark-gray);margin-bottom:18px}.content ul,.link-list{margin:14px 0 24px;padding-left:20px}.link-list li{margin:8px 0}.link-list a{color:var(--royal);font-weight:700}.sidebar{position:sticky;top:92px;display:grid;gap:18px}.panel{border:1px solid var(--lt-gray);border-radius:var(--radius);padding:22px;background:#fff;box-shadow:var(--shadow-sm)}.panel h2{font-size:1.2rem;margin:0 0 12px}.cta{text-align:center;background:linear-gradient(135deg,var(--navy),#0e2d6a)}.cta h2{color:#fff;margin-top:0}.cta p{color:rgba(255,255,255,.72);max-width:680px;margin:0 auto 26px}.faq h2{margin-top:0}.faq details{background:#fff;border:1px solid var(--lt-gray);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:var(--shadow-sm)}.faq summary{cursor:pointer;font-weight:700;color:var(--navy)}.faq details p{margin-top:10px;color:var(--dark-gray)}footer{background:var(--navy);padding:44px 0;color:rgba(255,255,255,.72)}.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px}.footer-brand{font-family:'Playfair Display',serif;color:#fff;font-size:1.35rem;font-weight:700;margin-bottom:10px}footer h3{color:var(--accent-lt);font-size:1rem;margin-bottom:10px}footer a{display:block;color:rgba(255,255,255,.65);font-size:.9rem;margin:7px 0}@media(max-width:900px){.nav-links{display:none}.nav-inner>.btn{display:none}.content-grid{grid-template-columns:1fr}.sidebar{position:static}.footer-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.footer-grid{grid-template-columns:1fr}.section{padding:54px 0}.hero{padding-top:112px}}`);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, {recursive:true});
+  fs.writeFileSync(path.join(dir, 'seo-pages.css'), cssContent);
 }
 
 function docs() {
@@ -681,12 +760,13 @@ function sitemap() {
 }
 
 function generate() {
-  fs.mkdirSync(path.join(root, 'blog'), {recursive:true});
+  if (!fs.existsSync(path.join(root, 'blog'))) fs.mkdirSync(path.join(root, 'blog'), {recursive:true});
   css();
   docs();
   servicePages.forEach(([file, page]) => servicePage(file, page));
   intentPages.forEach(intentPage);
   blogPages.forEach(blogPage);
+  blogIndex();
   sitemap();
 }
 
