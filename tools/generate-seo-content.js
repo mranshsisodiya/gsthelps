@@ -414,7 +414,7 @@ function nav(active = '') {
   return `<nav id="navbar">
   <div class="container nav-inner">
     <a href="/" class="nav-logo">
-      <span class="nav-logo-icon"><img src="/favicon-32x32.png" width="24" height="24" loading="eager" decoding="async" alt="GST Helps"></span>
+      <span class="nav-logo-icon"><img src="/favicon-32x32.png?v=2" width="32" height="32" loading="eager" decoding="async" alt="GST Helps"></span>
       <span class="nav-logo-text">Sujeet Singh &amp; Associates<span>GST Consultant</span></span>
     </a>
     <div class="nav-links">
@@ -468,7 +468,7 @@ function head({title, desc, canonical, schema, relPath = ''}) {
 <meta property="og:url" content="${canonical}">
 <meta property="og:image" content="https://gsthelps.com/sujeet1.webp">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -633,7 +633,7 @@ h3{font-size:1.08rem}
 .nav-inner{height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .nav-inner .btn{padding:8px 18px;font-size:.82rem;flex-shrink:0}
 .nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
-.nav-logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent-lt));border-radius:10px;display:flex;align-items:center;justify-content:center}
+.nav-logo-icon{width:40px;height:40px;background:transparent;display:flex;align-items:center;justify-content:center}
 .nav-logo-text{font-family:'Playfair Display',serif;color:#fff;font-weight:700;line-height:1.1;white-space:nowrap}
 .nav-logo-text span{display:block;font-family:'DM Sans',sans-serif;color:var(--accent-lt);font-size:.68rem;font-weight:400}
 .nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--accent) transparent;-webkit-overflow-scrolling:touch}
