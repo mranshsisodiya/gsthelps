@@ -433,23 +433,24 @@ function footer() {
   return `<footer>
   <div class="container footer-grid">
     <div>
-      <div class="footer-brand">GST Helps</div>
-      <p>Professional GST registration, return filing, refund, audit, and compliance support for businesses across India.</p>
+      <div class="footer-brand" style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:#fff;margin-bottom:12px">Sujeet Singh &amp; Associates</div>
+      <p style="color:rgba(255,255,255,.6);font-size:.85rem;line-height:1.6">Professional GST registration, return filing, refund, audit, and compliance support for businesses across India.</p>
     </div>
-    <div>
-      <h3>Services</h3>
-      ${serviceLinks.map(([l,h]) => `<a href="${h}">${l}</a>`).join('')}
+    <div class="footer-col">
+      <h3 style="color:var(--accent-lt);font-size:1rem;margin-bottom:15px">Services</h3>
+      ${serviceLinks.map(([l, h]) => `<a href="${h}" style="display:block;color:rgba(255,255,255,.65);font-size:.85rem;margin:8px 0">${l}</a>`).join('')}
     </div>
-    <div>
-      <h3>Guides</h3>
-      ${blogLinks.slice(0,5).map(([l,h]) => `<a href="${h}">${l}</a>`).join('')}
+    <div class="footer-col">
+      <h3 style="color:var(--accent-lt);font-size:1rem;margin-bottom:15px">Guides</h3>
+      ${blogLinks.slice(0, 5).map(([l, h]) => `<a href="${h}" style="display:block;color:rgba(255,255,255,.65);font-size:.85rem;margin:8px 0">${l}</a>`).join('')}
     </div>
-    <div>
-      <h3>Contact</h3>
-      <p>${displayPhone}<br>${email}<br>Noida, Uttar Pradesh</p>
-      <a href="/privacy-policy.html">Privacy Policy</a>
-      <a href="/terms.html">Terms</a>
-      <a href="/disclaimer.html">Disclaimer</a>
+    <div class="footer-col">
+      <h3 style="color:var(--accent-lt);font-size:1rem;margin-bottom:15px">Contact</h3>
+      <p style="color:rgba(255,255,255,.65);font-size:.85rem;line-height:1.6">${displayPhone}<br>${email}<br>Noida, Uttar Pradesh</p>
+      <div style="margin-top:15px">
+        <a href="/privacy-policy.html" style="color:rgba(255,255,255,.45);font-size:.75rem;margin-right:10px">Privacy Policy</a>
+        <a href="/terms.html" style="color:rgba(255,255,255,.45);font-size:.75rem">Terms</a>
+      </div>
     </div>
   </div>
 </footer>`;
@@ -667,11 +668,11 @@ h3{font-size:1.08rem}
 .faq details{background:#fff;border:1px solid var(--lt-gray);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:var(--shadow-sm)}
 .faq summary{cursor:pointer;font-weight:700;color:var(--navy)}
 .faq details p{margin-top:10px;color:var(--dark-gray)}
-footer{background:var(--navy);padding:44px 0;color:rgba(255,255,255,.72)}
-.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px}
+footer{background:var(--navy);padding:60px 0;color:rgba(255,255,255,.72)}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;align-items:start}
 .footer-brand{font-family:'Playfair Display',serif;color:#fff;font-size:1.35rem;font-weight:700;margin-bottom:10px}
-footer h3{color:var(--accent-lt);font-size:1rem;margin-bottom:10px}
-footer a{display:block;color:rgba(255,255,255,.65);font-size:.9rem;margin:7px 0}
+footer h3{color:var(--accent-lt);font-size:1rem;margin-bottom:15px}
+footer a{display:block;color:rgba(255,255,255,.65);font-size:.87rem;margin:8px 0}
 @media(max-width:900px){
   .nav-links{display:none}
   .nav-inner>.btn{display:none}

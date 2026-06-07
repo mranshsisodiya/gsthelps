@@ -52,11 +52,11 @@ h3{font-size:1.08rem}
 .faq details{background:#fff;border:1px solid var(--lt-gray);border-radius:10px;padding:18px 20px;margin:12px 0;box-shadow:var(--shadow-sm)}
 .faq summary{cursor:pointer;font-weight:700;color:var(--navy)}
 .faq details p{margin-top:10px;color:var(--dark-gray)}
-footer{background:var(--navy);padding:44px 0;color:rgba(255,255,255,.72)}
-.footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px}
+footer{background:var(--navy);padding:60px 0;color:rgba(255,255,255,.72)}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;align-items:start}
 .footer-brand{font-family:'Playfair Display',serif;color:#fff;font-size:1.35rem;font-weight:700;margin-bottom:10px}
-footer h3{color:var(--accent-lt);font-size:1rem;margin-bottom:10px}
-footer a{display:block;color:rgba(255,255,255,.65);font-size:.9rem;margin:7px 0}
+footer h3{color:var(--accent-lt);font-size:1rem;margin-bottom:15px}
+footer a{display:block;color:rgba(255,255,255,.65);font-size:.87rem;margin:8px 0}
 @media(max-width:900px){
   .nav-links{display:none}
   .nav-inner>.btn{display:none}
