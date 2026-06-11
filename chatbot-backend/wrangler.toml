@@ -1,0 +1,5 @@
+name = "gst-chatbot-proxy"
+main = "src/index.js"
+compatibility_date = "2024-06-11"
+
+# The API key will be added as a secret using wrangler, not hardcoded here.
