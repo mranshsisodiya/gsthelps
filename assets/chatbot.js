@@ -196,7 +196,7 @@
   // Inject HTML
   const container = document.createElement("div");
   container.id = "gst-chatbot-container";
-  container.innerHTML = \`
+  container.innerHTML = `
     <div id="gst-chatbot-window">
       <div id="gst-chatbot-header">
         <h3><i class="fas fa-robot"></i> GST Assistant</h3>
@@ -215,7 +215,7 @@
     <button id="gst-chatbot-button">
       <i class="fas fa-comment-dots"></i>
     </button>
-  \`;
+  `;
   document.body.appendChild(container);
 
   // Logic
@@ -243,7 +243,7 @@
 
   function addMessage(text, sender, isHtml = false) {
     const msgDiv = document.createElement("div");
-    msgDiv.className = \`gst-chat-bubble gst-chat-\${sender}\`;
+    msgDiv.className = `gst-chat-bubble gst-chat-${sender}`;
     if (isHtml) {
       msgDiv.innerHTML = text;
     } else {
@@ -257,13 +257,13 @@
     const typingDiv = document.createElement("div");
     typingDiv.className = "gst-chat-bubble gst-chat-bot";
     typingDiv.id = "gst-typing-indicator-msg";
-    typingDiv.innerHTML = \`
+    typingDiv.innerHTML = `
       <div class="gst-typing-indicator">
         <div class="gst-dot"></div>
         <div class="gst-dot"></div>
         <div class="gst-dot"></div>
       </div>
-    \`;
+    `;
     messagesEl.appendChild(typingDiv);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
@@ -277,15 +277,15 @@
 
   // Simple Markdown parser for bold and lists
   function parseMarkdown(text) {
-    let html = text.replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>');
-    html = html.replace(/\\*(.*?)\\*/g, '<em>$1</em>');
-    html = html.replace(/\\n\\n/g, '</p><p>');
+    let html = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    html = html.replace(/\n\n/g, '</p><p>');
     // Handle simple lists
-    html = html.replace(/\\n- (.*?)(?=\\n- |$)/gs, '<li>$1</li>');
+    html = html.replace(/\n- (.*?)(?=\n- |$)/gs, '<li>$1</li>');
     if (html.includes('<li>')) {
-      html = html.replace(/(<li>.*<\\/li>)/s, '<ul>$1</ul>');
+      html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
     }
-    return \`<p>\${html}</p>\`;
+    return `<p>${html}</p>`;
   }
 
   async function handleSend() {
